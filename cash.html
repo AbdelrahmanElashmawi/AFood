@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="cash.css">
+    <link rel="shortcut icon" href="m/cash.png">
+    <title>AFood-Cash</title>
+</head>
+<body>
+    <header>
+        <a href="afood.html" class="logo"><i class="fa-solid fa-utensils"></i>AFood</a>
+    </header>
+
+    <form class="form">
+        <div class="pays">
+            <!-- طرق الدفع الأخرى -->
+            <div class="pay"><img src="m/paypal (1).png" class="pay-img" alt="PayPal"></div>
+            <div class="pay"><img src="m/apple-pay.png" class="pay-img" alt="Apple Pay"></div>
+            <div class="pay"><img src="m/google-pay.png" class="pay-img" alt="Google Pay"></div>
+        </div>
+
+        <div class="texto">
+            <hr class="line">
+            <p>Or Pay using credit card</p>
+            <hr class="line">
+        </div>
+
+        <div class="box">
+            <!-- حقل الاسم الكامل -->
+            <div class="input-container">
+                <label for="label1" class="input-label">Card holder full name</label>
+                <input id="label1" type="text" class="input-field" placeholder="Enter Your full name">
+            </div>
+
+            <!-- حقل رقم البطاقة -->
+            <div class="input-container">
+                <label for="number" class="input-label">Card Number</label>
+                <input id="number" type="number" class="input-field" placeholder="0000 0000 0000 0000">
+            </div>
+
+            <!-- حقل تاريخ انتهاء الصلاحية و CVV -->
+            <div class="input-container">
+                <label for="expiry-date" class="input-label">Expiry Date / CVV</label>
+                <div class="split">
+                    <input type="text" class="input-field" id="expiry-date" placeholder="01/23">
+                    <input type="number" class="input-field" id="cvv" placeholder="CVV">
+                </div>
+            </div>
+        </div>
+
+        <!-- زر الدفع -->
+        <button id="checkoutbtn" class="btn" disabled>Checkout</button>
+    </form>
+
+    <script>
+        // الوصول إلى المدخلات والعناصر في الصفحة
+        const cardNumberInput = document.getElementById('number');
+        const expiryDateInput = document.getElementById('expiry-date');
+        const cvvInput = document.getElementById('cvv');
+        const fullNameInput = document.getElementById('label1');
+        const checkoutButton = document.getElementById('checkoutbtn');
+
+        // تنسيق تاريخ انتهاء الصلاحية
+        expiryDateInput.addEventListener('input', () => {
+            let value = expiryDateInput.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            expiryDateInput.value = value;
+        });
+
+        // تنسيق CVV
+        cvvInput.addEventListener('input', () => {
+            cvvInput.value = cvvInput.value.replace(/[^0-9]/g, '').slice(0, 3);
+        });
+
+        // التحقق من المدخلات وتفعيل الزر
+        const validateInputs = () => {
+            const isFullNameFilled = fullNameInput.value.trim() !== '';
+            const isCardNumberValid = cardNumberInput.value.replace(/\s+/g, '').length === 16;
+            const isExpiryDateValid = /^\d{2}\/\d{2}$/.test(expiryDateInput.value);
+            const isCVVValid = cvvInput.value.length === 3;
+
+            // تفعيل/تعطيل الزر بناءً على المدخلات
+            checkoutButton.disabled = !(isFullNameFilled && isCardNumberValid && isExpiryDateValid && isCVVValid);
+        };
+
+        // إضافة حدث التحقق لكل حقل
+        [fullNameInput, cardNumberInput, expiryDateInput, cvvInput].forEach(input => {
+            input.addEventListener('input', validateInputs);
+        });
+
+        // الانتقال إلى صفحة OTP بعد التحقق من المدخلات
+        checkoutButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = "otp.html";
+        });
+    </script>
+</body>
+</html>

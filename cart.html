@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="shortcut icon" href="m/shopping-cart.png">
+    <link rel="stylesheet" href="cart.css">
+    <title>AFood-Shopping</title>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <a href="afood.html" class="logo"><i class="fa-solid fa-utensils"></i>AFood</a>
+        <div class="icons">
+            <a href="signup.html" id="user"><i class="fa-solid fa-user"></i></a>    
+        </div>
+    </header>
+
+    <!-- Cart Section -->
+    <div class="cart" id="cart">
+        <h1 class="cart-title">Your Cart</h1>
+        <div class="cart-content" id="cart-items"></div>
+
+        <!-- Total Section -->
+        <div class="total">
+            <div class="total-title">Total</div>
+            <div class="total-price" id="total-price">$0</div>
+            <a href="cash.html"> 
+                <button type="button" id="buy-button" class="btn-buy" onclick="confirmsPayment()" disabled>Buy Now</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer-main " id="Contact">
+        <div class="share">
+            <a href="#" class="btn"> <i class="fa-brands fa-facebook"></i> Facebook</a>
+            <a href="#" class="btn"> <i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="#" class="btn"> <i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        </div>
+        <h1 class="credit">Created By <span> Abdelrahman  Abdelmonem </span> | All Rights Reserved!</h1>
+    </footer>
+
+    <script src="cart.js"></script>
+</body>
+</html>

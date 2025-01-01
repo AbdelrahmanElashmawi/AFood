@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="shortcut icon" href="m/pin.png">
+    <title>AFood-Otp</title>
+    <style>
+        /* إعدادات عامة لجميع العناصر */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.2s linear;
+        }
+
+        body {
+            background-color: #000;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow: hidden;
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+        }
+
+        /* تصميم الهيدر */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 9%;
+            box-shadow: 0 8px 16px rgba(248, 248, 248, 0.621);
+            background-color: #000;
+        }
+
+        header .logo {
+            font-size: 2.5rem;
+            font-weight: bolder;
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            left: -4%;
+            margin-left: 5rem;
+        }
+
+        .logo i {
+            padding-right: .5rem;
+            color: #00b0ff;
+        }
+
+        /* تصميم واجهة OTP */
+        .otp-container, .succes-mess {
+            width: 400px;
+            text-align: center;
+            color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #6a6767;
+        }
+
+        .otp-container:hover, .succes-mess:hover {
+            border: 1px solid #fff;
+        }
+
+        .otp-container h2, .succes-mess h2 {
+            font-size: 2.3rem;
+        }
+
+        .otp-container p, .succes-mess p {
+            font-size: 1.2rem;
+            margin-top: 3rem;
+        }
+
+        /* تصميم مدخلات OTP */
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            border: 1px solid #242323;
+            border-radius: 5px;
+            margin-top: 3rem;
+            font-size: 1.7rem;
+        }
+
+        /* تصميم زر التحقق */
+        .btn {
+            display: inline-block;
+            padding: .8rem 3rem;
+            border: .2rem solid #fff;
+            color: #fff;
+            font-size: 1.7rem;
+            border-radius: .5rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+            margin-top: 3rem;
+            background-color: #000;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            color: #00b0ff;
+            border: .2rem solid #00b0ff;
+        }
+
+        /* إخفاء الرسالة الناجحة */
+        .succes-mess {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <header>
+        <a href="afood.html" class="logo"><i class="fa-solid fa-utensils"></i>AFood</a>
+    </header>
+
+    <!-- واجهة OTP -->
+    <div class="otp-container" id="otpContainer">
+        <h2>OTP Verification Code</h2>
+        <p>We have sent the verification code to your Email abd**********01@gmail.com</p>
+        <input type="text" class="otp-input" maxlength="1" id="input1" oninput="moveToNext(this, 'input2')">
+        <input type="text" class="otp-input" maxlength="1" id="input2" oninput="moveToNext(this, 'input3')">
+        <input type="text" class="otp-input" maxlength="1" id="input3" oninput="moveToNext(this, 'input4')">
+        <input type="text" class="otp-input" maxlength="1" id="input4" oninput="moveToNext(this, '')">
+
+        <button class="btn" id="verifyBtn" disabled onclick="verifyOTP()">Verify Me</button>
+    </div>
+
+    <!-- رسالة النجاح بعد التحقق من OTP -->
+    <div class="succes-mess" id="succesmess">
+        <h2>Success</h2>
+        <p>OTP verified successfully</p>
+    </div>
+
+    <script>
+        // وظيفة لنقل التركيز إلى الحقل التالي عندما يتم إدخال قيمة في الحقل الحالي
+        function moveToNext(current, nextFieldID) {
+            if (current.value.length >= 1 && nextFieldID) {
+                document.getElementById(nextFieldID).focus();
+            }
+            checkOTP();
+        }
+
+        // التحقق من أن جميع الحقول قد تم ملؤها وتفعيل/تعطيل الزر بناءً على ذلك
+        function checkOTP() {
+            const inputs = document.querySelectorAll(".otp-input");
+            const filled = Array.from(inputs).every(input => input.value.length > 0);
+            const button = document.getElementById("verifyBtn");
+
+            // إذا كانت جميع الحقول ممتلئة، تفعيل الزر
+            if (filled) {
+                button.classList.add("active");
+                button.removeAttribute("disabled");
+            } else {
+                button.classList.remove("active");
+                button.setAttribute("disabled", true);
+            }
+        }
+
+        // وظيفة التحقق من OTP وإظهار الرسالة الناجحة
+        function verifyOTP() {
+            document.getElementById("otpContainer").style.display = "none";  // إخفاء واجهة OTP
+            document.getElementById("succesmess").style.display = "block";  // إظهار رسالة النجاح
+        }
+    </script>
+
+</body>
+</html>
